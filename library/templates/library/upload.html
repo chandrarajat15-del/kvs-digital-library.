@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resource | PM SHRI KVS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root { --kvs-maroon: #880e4f; --kvs-gold: #ffd700; }
+        body { background-color: #f4f4f4; font-family: 'Segoe UI', sans-serif; }
+        .upload-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 60px auto;
+            border-top: 5px solid var(--kvs-maroon);
+        }
+        .btn-publish {
+            background-color: var(--kvs-maroon);
+            color: white;
+            font-weight: 700;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            margin-top: 20px;
+        }
+        .btn-publish:hover { background-color: #6a0b3d; color: white; }
+        .form-label { font-weight: 600; color: #444; }
+        .header-text { color: var(--kvs-maroon); font-weight: 800; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="upload-card">
+            <div class="text-center">
+                <h3 class="header-text">Publish New Resource</h3>
+            </div>
+
+            <form action="{% url 'teacher_upload' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Resource Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="e.g. Science Chapter 1 Notes" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Target Class</label>
+                        <select name="class_level" class="form-select" required>
+                            <option value="">Select Class</option>
+                            <option value="1">Class 1</option><option value="2">Class 2</option>
+                            <option value="3">Class 3</option><option value="4">Class 4</option>
+                            <option value="5">Class 5</option><option value="6">Class 6</option>
+                            <option value="7">Class 7</option><option value="8">Class 8</option>
+                            <option value="9">Class 9</option><option value="10">Class 10</option>
+                            <option value="11">Class 11</option><option value="12">Class 12</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Subject</label>
+                        <select name="subject" class="form-select" required>
+                            <option value="">Select Subject</option>
+                            <option>Mathematics</option><option>Science</option>
+                            <option>English</option><option>Hindi</option>
+                            <option>Social Science</option><option>Sanskrit</option>
+                            <option>Physics</option><option>Chemistry</option>
+                            <option>Biology</option><option>Economics</option>
+                            <option>Computer Science</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Resource Category</label>
+                    <select name="resource_type" class="form-select" required>
+                        <option value="">Select Type</option>
+                        <option value="books">Books</option>
+                        <option value="review">Book Review</option>
+                        <option value="notes">Notes</option>
+                        <option value="paper">Question Paper</option>
+                        <option value="module">Learning Modules</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Select PDF Document</label>
+                    <input type="file" name="pdf_file" class="form-control" accept=".pdf" required>
+                </div>
+
+                <button type="submit" class="btn btn-publish shadow-sm">PUBLISH TO LIBRARY</button>
+                <div class="text-center mt-3">
+                    <a href="{% url 'home' %}" class="text-decoration-none text-muted small">Cancel and go back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

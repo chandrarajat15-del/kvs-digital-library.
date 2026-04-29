@@ -1,0 +1,139 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Library | PM SHRI KVS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root { --kvs-maroon: #880e4f; --kvs-gold: #ffd700; }
+        body { background-color: #ffffff; font-family: 'Segoe UI', sans-serif; }
+        
+        .top-info-bar { 
+            background-color: #f8f9fa; 
+            font-size: 0.85rem; 
+            padding: 8px 5%; 
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+        }
+
+        .branding-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 15px 5%; 
+        }
+        
+        .school-name { color: var(--kvs-maroon); font-weight: 800; margin: 0; }
+
+        .navbar { 
+            background-color: var(--kvs-maroon); 
+            border-bottom: 4px solid var(--kvs-gold); 
+            padding: 10px 5%;
+        }
+
+        .search-container { 
+            background-color: var(--kvs-maroon); 
+            padding: 30px; 
+            border-radius: 8px; 
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .form-select { border-radius: 4px; height: 45px; font-weight: 500; }
+        .btn-go { 
+            background-color: white; 
+            color: var(--kvs-maroon); 
+            font-weight: 700; 
+            height: 45px;
+            width: 100%;
+            border: none;
+        }
+        .btn-go:hover { background-color: #f1f1f1; }
+    </style>
+</head>
+<body>
+
+    <div class="top-info-bar d-flex justify-content-between align-items-center">
+        <span>PM SHRI KENDRIYA VIDYALAYA SANGATHAN</span>
+        <span>{{ date_now|date:"l, d F Y" }} | {{ date_now|time:"H:i" }}</span>
+    </div>
+
+    <div class="branding-header">
+        <h2 class="school-name">Digital Library Resources</h2>
+        <img src="{% static 'images/kvs_logo.png' %}" style="height: 80px;" alt="KVS Logo">
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid p-0">
+            <a class="navbar-brand fw-bold" href="/">HOME</a>
+            <div class="ms-auto d-flex align-items-center">
+                {% if user.is_authenticated %}
+                    <span class="text-white me-3 small">Welcome, {{ user.username }}</span>
+                    <a href="{% url 'teacher_upload' %}" class="btn btn-warning btn-sm fw-bold me-2">Upload Resource</a>
+                    <a href="/accounts/logout/" class="btn btn-outline-light btn-sm">Logout</a>
+                {% else %}
+                    <a href="{% provider_login_url 'google' %}" class="btn btn-outline-light btn-sm fw-bold">Teacher Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <div class="container text-center mt-5">
+        <h2 class="fw-bold">Welcome to the Online Resources Section</h2>
+        <p class="text-muted">Access official textbooks, notes, and question papers for Classes I-XII.</p>
+
+        <div class="search-container">
+            <form action="{% url 'search' %}" method="GET" class="row g-2 justify-content-center">
+                
+                <div class="col-md-3">
+                    <select name="class_level" class="form-select" required>
+                        <option value="">..Select Class..</option>
+                        <option value="1">Class 1</option><option value="2">Class 2</option>
+                        <option value="3">Class 3</option><option value="4">Class 4</option>
+                        <option value="5">Class 5</option><option value="6">Class 6</option>
+                        <option value="7">Class 7</option><option value="8">Class 8</option>
+                        <option value="9">Class 9</option><option value="10">Class 10</option>
+                        <option value="11">Class 11</option><option value="12">Class 12</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <select name="subject" class="form-select">
+                        <option value="">..Select Subject..</option>
+                        <option>Mathematics</option><option>Science</option>
+                        <option>English</option><option>Hindi</option>
+                        <option>Social Science</option><option>Sanskrit</option>
+                        <option>Physics</option><option>Chemistry</option>
+                        <option>Biology</option><option>Economics</option>
+                        <option>Computer Science</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <select name="resource_type" class="form-select">
+                        <option value="">..Select Resource..</option>
+                        <option value="books">Books</option>
+                        <option value="review">Book Review</option>
+                        <option value="notes">Notes</option>
+                        <option value="paper">Question Paper</option>
+                        <option value="module">Learning Modules</option>
+                    </select>
+                </div>
+
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-go">Go</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="text-center py-5 text-muted small">
+        <hr class="w-75 mx-auto mb-4">
+        PM SHRI KVS Digital Portal &copy; 2026
+    </footer>
+
+</body>
+</html>
